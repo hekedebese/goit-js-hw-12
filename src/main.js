@@ -79,6 +79,9 @@ async function handleSubmit(event) {
     }
   } catch (error) {
     console.log(error.message);
+    iziToast.error({
+      message: 'Something went wrong. Please try again later!',
+    });
   } finally {
     event.target.reset();
     hideLoader();
@@ -89,6 +92,9 @@ async function handleSubmit(event) {
 async function onLoadMore(event) {
   page++;
   fetchBtn.disabled = true;
+  showLoader();
+  hideLoadMoreButton();
+
   try {
     const posts = await getImagesByQuery(curQuerry, page);
     const total_pages = Math.ceil(posts.totalHits / per_page);
@@ -98,10 +104,12 @@ async function onLoadMore(event) {
 
     window.scrollBy({
       left: 0,
-      top: card,
+      top: card * 2,
       behavior: 'smooth',
     });
-    if (page >= total_pages) {
+    if (page < total_pages) {
+      showLoadMoreButton();
+    } else {
       hideLoadMoreButton();
 
       iziToast.error({
@@ -110,7 +118,11 @@ async function onLoadMore(event) {
     }
   } catch (error) {
     console.log(error.message);
+    iziToast.error({
+      message: 'Something went wrong. Please try again later!',
+    });
   } finally {
     fetchBtn.disabled = false;
+    hideLoader();
   }
 }
