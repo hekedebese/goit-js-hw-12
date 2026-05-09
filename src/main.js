@@ -72,10 +72,14 @@ async function handleSubmit(event) {
     }
     createGallery(posts.hits);
 
-    if (page < total_pages) {
+    if (page >= total_pages) {
       showLoadMoreButton();
     } else {
       hideLoadMoreButton();
+
+      iziToast.error({
+        message: `We're sorry, but you've reached the end of search results.`,
+      });
     }
   } catch (error) {
     console.log(error.message);
@@ -107,7 +111,7 @@ async function onLoadMore(event) {
       top: card * 2,
       behavior: 'smooth',
     });
-    if (page < total_pages) {
+    if (page >= total_pages) {
       showLoadMoreButton();
     } else {
       hideLoadMoreButton();
