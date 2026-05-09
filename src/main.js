@@ -72,7 +72,7 @@ async function handleSubmit(event) {
     }
     createGallery(posts.hits);
 
-    if (page >= total_pages) {
+    if (page < total_pages) {
       showLoadMoreButton();
     } else {
       hideLoadMoreButton();
@@ -111,7 +111,7 @@ async function onLoadMore(event) {
       top: card * 2,
       behavior: 'smooth',
     });
-    if (page >= total_pages) {
+    if (page < total_pages) {
       showLoadMoreButton();
     } else {
       hideLoadMoreButton();
