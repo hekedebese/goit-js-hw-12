@@ -1,0 +1,60 @@
+// Описаний у документації
+import SimpleLightbox from 'simplelightbox';
+// Додатковий імпорт стилів
+import 'simplelightbox/dist/simple-lightbox.min.css';
+
+const gallery = document.querySelector('.gallery');
+const loader = document.querySelector('.loader');
+const fetchBtn = document.querySelector('.second-fetch');
+
+const lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+});
+
+export function createGallery(images) {
+  const markup = images
+    .map(image => {
+      return `
+        <li class="card">
+        <a href='${image.largeImageURL}'>
+        <img src='${image.webformatURL}' 
+        alt='${image.tags}'
+        />
+        </a>
+
+        <div class="gallery-info">
+            <p><b>Likes</b><br>${image.likes}</p>
+            <p><b>Views</b><br>${image.views}</p>
+            <p><b>Comments</b><br>${image.comments}</p>
+            <p><b>Downloads</b><br>${image.downloads}</p>
+          </div>
+        </li>
+        `;
+    })
+    .join('');
+
+  gallery.insertAdjacentHTML('beforeend', markup);
+
+  lightbox.refresh();
+}
+
+export function clearGallery() {
+  gallery.innerHTML = '';
+}
+
+export function showLoader() {
+  loader.classList.remove('hidden');
+}
+
+export function hideLoader() {
+  loader.classList.add('hidden');
+}
+
+export function showLoadMoreButton() {
+  fetchBtn.classList.remove('hidden');
+}
+
+export function hideLoadMoreButton() {
+  fetchBtn.classList.add('hidden');
+}
